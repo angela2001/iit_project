@@ -1,0 +1,24 @@
+<DOCTYPE! html>
+<html>
+<head>
+    Title
+</head>
+<body>
+<table>
+  <thead>
+    <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+  </thead>
+  <tbody>
+  {% for val in a %}
+  <tr>
+    <td>{{ val["a1"]}}</td>
+    <td>{{ val["a2"]}}</td>
+    <td>{{ val["a3"]}}</td>
+  </tr>
+  {% endfor%}
+  </tbody>
+</table>
+</body>
+</html>
