@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %} Login Page {% endblock%}
+
+{% block body %} 
+<h1>FlashCard App</h1>
+<div class='form'>   
+    <form action="/" method="POST" >  
+        <h3>Login</h3>
+        <label>Username : </label>   
+        <input type="text" placeholder= " Enter Username" name="username" required minlength="5" type="text">  
+        <br>
+        <label>Password : </label>   
+        <input type="password" placeholder=" Enter Password" name="password" required minlength='8' type="password">  
+        <br>
+        <button type="submit">Login</button>    
+        <br>
+        <br>
+        <div class="redirect">
+            <i class="italic">Do not have an account? Click <a href='/signup'>here</a> to sign up</i> 
+        </div>
+    </form>     
+</div>
+{% endblock%}

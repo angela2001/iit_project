@@ -1,0 +1,52 @@
+#User Login
+-Form for username (and optional password)
+-You can either use a proper login framework, or just use a field for username - we are not concerned with how secure the login or the app is
+-Suitable model for user
+
+#Dashboard
+-Dashboard with list of decks, last reviewed, score (how well reviewed)
+-Time of last review, score on deck (some kind of average of individual reviews etc)
+-Scoring method is left up to you as long as you can explain what is done
+
+#Review
+-Select a deck, then start presenting options one by one; 
+-allow user to select from some options like “easy”, “medium”, “difficult” which tells how difficult they found each card
+-Update last reviewed time and score, and overall deck score
+
+#Deck Mangement
+-Create a new deck
+-Add cards to deck - the deck storage should handle multiple languages - usually UTF-8 encoding is sufficient for this
+-Edit a deck
+-Remove a deck
+-Export/Import are optional
+
+#APIs for interaction with decks
+    CRUD on deck, individual cards
+    Additional APIs to retrieve score, or add other features
+#Validation
+    All form inputs fields - text, numbers etc. with suitable messages
+    Backend validation before storing / selecting from database
+
+
+Styling and Aesthetics
+Proper login system
+Export/Import decks, compatibility with AnkiWeb etc.
+
+
+#Add info
+    Used for memory training
+    User can have multiple decks
+    System automatically presents one card at a time, and user needs to select a choice based on how well they know the answer
+    System will track progress over time and decide which cards need to be reviewed
+
+#Terminology
+Front - the part of the flashcard initially shown for review
+Back - the answer or meaning of what is on the front side
+Deck - a collection of related cards 
+(eg. Tamil, Hindi, HTML etc.)
+
+#Frameworks
+Flask for application code
+Jinja2 templates + Bootstrap for HTML generation and styling
+SQLite for data storage
+All demos should be possible on a standalone platform like replit.com and should not require setting up new servers for database and frontend management
