@@ -62,6 +62,19 @@ def login():
         if validlogin:
             return redirect('/home'.format(username))
         return render_template('invalid_login.html')
+    
+
+@app.route('/admin_login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'GET':
+        return render_template('admin_login.html')
+    elif request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        validlogin = db.session.query(Admin).filter(Admin.admin_name == username, Admin.password == password).first()
+        if validlogin:
+            return redirect('/admin_home'.format(username))
+        return render_template('invalid_login.html')    
 
 # Sign-up page
 
@@ -84,8 +97,12 @@ def signinpage():
 
 # Home page
 @app.route('/home', methods=['GET'])
-def Flashcard():
+def home():
     return render_template("base.html")
+
+@app.route('/admin_home', methods=['GET'])
+def admin_home():
+    return render_template("admin_home.html")
 
 
 # Run app
