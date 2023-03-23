@@ -1,0 +1,147 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 1rem;
+}
+header {
+  height: 100px;
+  background-image: linear-gradient(
+    rgb(250, 255, 177),
+    rgb(255, 213, 134),
+    rgb(255, 193, 229)
+  );
+}
+button {
+  border: 1px solid beige;
+  color: white;
+  outline: none;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  font-weight: bolder;
+  background-color: rgb(48, 2, 66);
+}
+
+button:hover {
+  background-color: rgb(2, 2, 61);
+  color: white;
+  text-decoration: None;
+}
+.container {
+  width: 95%;
+  margin: auto;
+}
+.nav {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: auto;
+  padding: 20px;
+}
+.create-box {
+  margin: auto;
+  padding: 20px;
+  margin-top: 10px;
+  border: 1px solid purple;
+  width: 380px;
+  background-image: linear-gradient(
+    rgb(193, 255, 177),
+    rgb(164, 255, 240),
+    rgb(140, 228, 255)
+  );
+  box-shadow: 0 2px 4px 0 rebeccapurple;
+}
+.form {
+  margin: auto;
+  padding: 30px;
+  margin-top: 50px;
+  border: 1px solid purple;
+  width: 380px;
+  background-image: linear-gradient(
+    rgb(193, 255, 177),
+    rgb(164, 255, 240),
+    rgb(140, 228, 255)
+  );
+  box-shadow: 0 2px 4px 0 rebeccapurple;
+  display: flex;
+  justify-content: space-between;
+}
+.create-box textarea {
+  width: 100%;
+  border-radius: 5px;
+  background-origin: padding-box;
+  font-family: inherit;
+  background-color: whitesmoke;
+  border: 1px solid lightgrey;
+}
+
+h1 {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  padding: 25px;
+}
+h2 {
+  text-align: center;
+  font-size: 1rem;
+}
+
+.flashcards {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 0 10px;
+}
+
+@media (max-width: 480px) {
+  .nav {
+    flex-direction: column;
+    align-items: center;
+  }
+  .create-box {
+    width: 100%;
+  }
+  .flashcards {
+    width: 100%;
+  }
+}
+
+.bg {
+  background-color: darkcyan;
+}
+th {
+  background: rgb(48, 2, 66);
+  color: honeydew;
+}
+table,
+th,
+td {
+  padding: 10px;
+  border: 2px solid grey;
+  border-collapse: collapse;
+}
+#ans {
+  display: none;
+}
+#card {
+  width: 350px;
+  border: 2px solid teal;
+  background: rgb(107, 224, 233);
+  box-shadow: 0 2px 4px 0 turquoise;
+  padding: 10px;
+  margin: 5px;
+}
+a {
+  text-decoration: none;
+}
