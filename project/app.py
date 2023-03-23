@@ -1,11 +1,8 @@
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 import os
 
 current_dir = os.path.abspath(os.path.dirname(__file__))
-# import sqlite3
-# from sqlalchemy.sql import func
-# from flask_restful import Resource,Api
 
 # App
 app = Flask(__name__)
@@ -15,9 +12,8 @@ app.config['SQLALCHEMY_DATABASE_URI']="sqlite:///"+os.path.join(current_dir,"dat
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy()
 db.init_app(app)
-# API calls
-# api = Api(app)
-# app.app_context().push()
+
+app.app_context().push()
 
 # Creating model tables
 
@@ -27,27 +23,30 @@ class User(db.Model):
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
-    # score = db.Column(db.Integer, default = 0)
-    # udeck = db.relationship('Deck', cascade='all, delete-orphan', backref='deck')
 
+class Admin(db.Model):
+    _tablename_ = 'admin'
+    admin_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    admin_name = db.Column(db.String, unique=True, nullable=False)
+    password = db.Column(db.String, nullable=False)
+    
+class Shows(db.Model):
+    _tablename_='shows'
+    show_id =db.Column(db.Integer, primary_key=True, autoincrement=True)
+    show_name= db.Column(db.String, unique=True, nullable=False)
+    rating=db.Column(db.Integer)
+    price=db.Column(db.Integer, nullable=False)
+    date=db.Column(db.String)
+    time =db.Column(db.String)
+    venue_id=db.Column(db.Integer,db.ForeignKey('venue.venue_id'))
+    
+class Venue(db.Model):
+    _tablename_='venue'
+    venue_id =db.Column(db.Integer, primary_key=True, autoincrement=True)
+    venue_name= db.Column(db.String, unique=True, nullable=False)
+    location=db.Column(db.String)
+    capacity =db.Column(db.Integer)
 
-# class Deck(db.Model):
-#     __tablename__ = 'deck'
-#     deck_id = db.Column(db.Integer, primary_key=True, autoincrement = True)
-#     deckname = db.Column(db.String, unique=True, nullable=False)
-#     user = db.Column(db.String, db.ForeignKey('user.username'), nullable=False)
-#     date_created = db.Column(db.DateTime(timezone=True), default=func.now())
-#     score = db.Column(db.Integer, default=0)
-#     last_rev = db.Column(db.DateTime(timezone=True), default=func.now())
-    # dcard = db.relationship('Card', cascade='all, delete-orphan', backref='card')
-
-class Card(db.Model):
-    _tablename_ = 'card'
-    card_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    deckname = db.Column(db.String, nullable=False)
-    # deck = db.Column(db.String, db.ForeignKey('deck.deckname'), nullable = False)
-    front = db.Column(db.String)
-    back = db.Column(db.String)
 
 # Login
 
