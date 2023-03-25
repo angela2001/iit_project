@@ -5,25 +5,31 @@
     <div class="container">
         <div class="nav">
             <h1>Flash Learn </h1>
-            <div><button onclick="CreateCards()">New Cards</button>
-                <button onclick="DeleteCards()">Delete Cards</button>
+            <div><button onclick="">Venues</button>
+                <button onclick="">Shows</button>
             </div>
         </div>
     </div>
 </header>
 
-<div class="container">
-    <div class="create-box">
-        <h2>Create Flashcard</h2>
-        <label for="question">Question</label>
-        <textarea id="question"></textarea>
-        <br>
-        <label for="answer">Answer </label>
-        <textarea id="answer"></textarea>
-        <br><br>
-        <div>
-            <button onclick="AddCard()">Save</button>
-            <button onclick="hideCard()">Close</button>
+<div class="container3">
+    <div id="st-box">
+        <h1>Venues</h1>
+        <div class="search-container">
+            <form action="">
+                <input type="text" placeholder="Search by Location.." name="search" class="Search">
+                <button type="submit">search</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="rd-box">
+        <h1>Shows</h1>
+        <div class="search-container">
+            <form action="">
+                <input type="text" placeholder="Search.." name="search" class="Search">
+                <button type="submit">search</button>
+            </form>
         </div>
     </div>
 </div>

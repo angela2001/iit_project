@@ -98,7 +98,7 @@ def signinpage():
 # Home page
 @app.route('/home', methods=['GET'])
 def home():
-    return render_template("base.html")
+    return render_template("home.html")
 
 @app.route('/admin_home', methods=['GET'])
 def admin_home():
