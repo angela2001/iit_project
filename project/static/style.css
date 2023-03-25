@@ -145,3 +145,69 @@ td {
 a {
   text-decoration: none;
 }
+
+
+.container2{
+  width:70vw;
+  height:30vh;
+  padding-top:20px;
+  padding-left:15px;
+  padding-right:15px;
+  display: flex;
+  justify-content: space-around;
+  margin: auto;
+}
+#st-box {
+  float:left;
+  width:20%;
+  height:100%;
+}
+#nd-box {
+  float:left;
+  width:20%;
+  height:100%;
+  margin-left:20px;
+}
+#rd-box {
+  float:right;
+  width:20%;
+  height:100%;
+}
+
+.container3{
+  width:90vw;
+  height:30vh;
+  padding-top:20px;
+  padding-left:15px;
+  padding-right:15px;
+  display: flex;
+  justify-content: space-around;
+  margin: auto;
+}
+
+.container3 #st-box {
+  width: 50%;
+}
+
+.container3 #rd-box {
+  width: 50%;
+}
+
+.search-container{
+  display: flex;
+  overflow: hidden;
+}
+
+.Search{
+  padding: 6px;
+  margin-top: 8px;
+  font-size: 17px;
+  width: 80%;
+  border: none;
+  float: left;
+}
+
+.search-container button {
+  float: right;
+  width: 20%;
+}

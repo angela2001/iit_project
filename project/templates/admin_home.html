@@ -1,11 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset = "UTF-8" name="viewport" content = "width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="/static/style.css">
-        <title>{% block title %} {% endblock %}</title>
-    </head>
-    <body>
-        {% block body %}hiiiiiiii admin {% endblock %}
-    </body>
+
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>{% block title %} {% endblock %}</title>
+</head>
+
+<body>
+    {% block body %}
+    <div class="container2">
+        <div id="st-box">
+            <h1>Venues</h1>
+            <div class="st-box-links">
+                <a href=''>List Venues</a>
+                <br>
+                <a href=''>Create Venue</a>
+                <br>
+                <a href=''>Update Venue</a>
+                <br>
+                <a href=''>Delete Venue</a>
+            </div>
+        </div>
+
+        <div id="nd-box">
+            <h1>Events</h1>
+            <div class="nd-box-links">
+                <a href=''>List Shows</a>
+                <br>
+                <a href=''>Create Shows</a>
+                <br>
+                <a href=''>Update Shows</a>
+                <br>
+                <a href=''>Delete Shows</a>
+            </div>
+        </div>
+
+        <div id="rd-box">
+            <h1>Users</h1>
+            <div class="rd-box-links">
+                <a href=''>List Users</a>
+                <br>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+</body>
+
 </html>
