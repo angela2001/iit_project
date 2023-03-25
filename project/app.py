@@ -123,9 +123,6 @@ def home():
 def admin_home():
     return render_template("admin_home.html")
 
-@app.route('/admin_home', methods=['GET'])
-def admin_home():
-    return render_template("admin_home.html")
 
 
 # Run app
