@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 import os
+import sqlite3
 
 current_dir = os.path.abspath(os.path.dirname(__file__))
 
@@ -96,17 +97,32 @@ def signinpage():
 
 
 # Home page
-@app.route('/home', methods=['GET'])
+@app.route('/home', methods=['GET','POST'])
 def home():
-    return render_template("home.html")
+    if request.method == 'GET':
+        conn = sqlite3.connect("database.sqlite3")
+        cur = conn.cursor()
+        query = """SELECT venue_name from venue"""
+        cur.execute(query)
+        venues = cur.fetchall()
+        cur.close()
+        return render_template("home.html", venues=venues)
+    if request.method == 'POST':
+        if 'venueSearch' in request.form:
+            location = request.form['venuelocation']
+            conn = sqlite3.connect("database.sqlite3")
+            cur = conn.cursor()
+            query = """SELECT venue_name from venue WHERE location=?"""
+            cur.execute(query,(location,))
+            rows = cur.fetchall()
+            cur.close()
+            return render_template("home.html", venues=rows)
+        # elif 'remove_note_button' in request.form:
 
 @app.route('/admin_home', methods=['GET'])
 def admin_home():
     return render_template("admin_home.html")
 
-@app.route('/admin_home', methods=['GET'])
-def admin_home():
-    return render_template("admin_home.html")
 
 
 # Run app
