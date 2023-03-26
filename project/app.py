@@ -112,12 +112,17 @@ def home():
             location = request.form['venuelocation']
             conn = sqlite3.connect("database.sqlite3")
             cur = conn.cursor()
-            query = """SELECT venue_name from venue WHERE location=?"""
+            query = """SELECT venue.venue_name, shows.show_name from venue inner join shows on venue.venue_id=shows.venue_id WHERE location=?"""
+            #show_query="""SELECT show_name from show WHERE """
             cur.execute(query,(location,))
             rows = cur.fetchall()
             cur.close()
+            print(rows)
+            if (len(rows)==0):
+                rows=[("No venues currently in this location hosting shows","No shows")]
             return render_template("home.html", venues=rows)
-        # elif 'remove_note_button' in request.form:
+
+        
 
 @app.route('/admin_home', methods=['GET'])
 def admin_home():

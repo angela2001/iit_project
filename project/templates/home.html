@@ -40,6 +40,15 @@
                 <button type="submit">search</button>
             </form>
         </div>
+        <div>
+            {% if venues is defined%}
+            <ol>
+                {% for venue in venues %}
+                    <li>{{venue[1]}}</li>
+                {% endfor %}
+            </ol>
+            {% endif %}
+        </div>
     </div>
 </div>
 <div class="flashcards"></div>
