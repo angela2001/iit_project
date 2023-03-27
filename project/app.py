@@ -193,7 +193,7 @@ def addVenue():
 @app.route('/admin/edit_venue/<venue_id>',methods=['GET','POST'])
 def editVenue(venue_id):
     if request.method == 'GET':
-        return render_template('edit_venue.html')
+        return render_template('edit_venue.html',venue_id=venue_id)
     if request.method == 'POST':
         venue_id=venue_id
         venue_name = request.form['venue_name']
@@ -204,9 +204,11 @@ def editVenue(venue_id):
         # db.session.commit()
         conn = sqlite3.connect("database.sqlite3")
         cur = conn.cursor()
-        sql="""update table venue set venue_name=?, location=?,capacity=? where venue_id=?"""
-        cur.execute(sql,(venue_name,location,capacity,venue_id))
+        sql="""update venue set venue_name=?, location=?,capacity=? where venue_id=?"""
+        cur.execute(sql,(venue_name,location,capacity,venue_id,))
         venues = cur.fetchall()
+        conn.commit()
+        cur.close()
         return redirect('/admin_home')
     
 @app.route('/admin/add_show',methods=['GET','POST'])
@@ -244,13 +246,22 @@ def editShow(show_id):
         # db.session.commit()
         conn = sqlite3.connect("database.sqlite3")
         cur = conn.cursor()
-        sql="""update table shows set show_name=?, rating=?, price=?, date=?, time=? ,availability=?, venue_id=? where show_id=?"""
-        cur.execute(sql,(show_name,rating,price,date,time,availability,venue_id,show_id))
+        sql="""update shows set show_name=?, rating=?, price=?, date=?, time=? ,availability=?, venue_id=? where show_id=?"""
+        cur.execute(sql,(show_name,rating,price,date,time,availability,venue_id,show_id,))
         venues = cur.fetchall()
+        conn.commit()
+        cur.close()
         return redirect('/admin_home')
 
-# @app.route('/book_ticket',methods=['GET','POST'])
-# def bookTicket():  
+
+
+# @app.route('/book_ticket/<show_id>',methods=['GET'])
+# def bookTicket(show_id):
+#     # if request.method=='GET':
+#     conn = sqlite3.connect("database.sqlite3")
+#     cur = conn.cursor()
+#     sql=
+#     return render_template('show.html')
 
 # Run app
 if __name__ == "__main__":
