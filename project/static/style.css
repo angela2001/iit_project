@@ -20,13 +20,13 @@ button {
   border: 1px solid beige;
   color: white;
   outline: none;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 10px;
   cursor: pointer;
   text-decoration: none;
   font-family: "Roboto", sans-serif;
   font-weight: bolder;
-  background-color: rgb(48, 2, 66);
+  background-color: rgb(65, 3, 89);
 }
 
 button:hover {
@@ -210,4 +210,32 @@ a {
 .search-container button {
   float: right;
   width: 20%;
+}
+
+.card{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  background-color: #fbf1ff;
+  width: 80%;
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+  margin-top:5vh;
+  padding: 3vh;
+  padding-top: 0;
+}
+
+.manageShows{
+  display: flex;
+  min-width:100%;
+  justify-content: center;
+  margin-bottom: 1%;
+}
+
+.admin_home{
+  text-align: center;
+}
+
+.addVenue{
+width: 7%;
+margin-top: 5vh;
 }
