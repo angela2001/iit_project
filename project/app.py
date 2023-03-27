@@ -115,7 +115,7 @@ def home():
             cur.execute(query2, (venue[0],))
             shows=cur.fetchall()
             venueDict[venue[0]]=[venue[1],shows,venue[2]] 
-        print(venueDict)    
+        # print(venueDict)    
         cur.close()
         return render_template("home.html", venueDict=venueDict)
     if request.method == 'POST':
@@ -168,10 +168,11 @@ def admin_home():
     cur.execute(query)
     venues = cur.fetchall()
     for venue in venues:
-        query2 = """SELECT show_name from shows where venue_id=?"""
+        query2 = """SELECT show_name,availability from shows where venue_id=?"""
         cur.execute(query2, (venue[0],))
         shows=cur.fetchall()
-        venueDict[venue[1]]=shows    
+        venueDict[venue[0]]=[venue[1],shows,venue[2]] 
+    print(venueDict)    
     cur.close()
     return render_template("admin_home.html", venueDict=venueDict)
 
