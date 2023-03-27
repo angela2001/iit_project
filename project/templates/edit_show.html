@@ -5,7 +5,7 @@
 {% block body %} 
 <h1>Ticketing</h1>
 <div class='form'>   
-    <form action="/admin/add_show" method="POST" >  
+    <form action="/admin/edit_show/{{show_id}}" method="POST" >  
         <h3>Edit Show</h3>
         <label>Show name : </label>   
         <input type="text" placeholder= " Enter new show" name="show_name" required minlength="5">  

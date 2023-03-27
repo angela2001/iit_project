@@ -229,7 +229,7 @@ def addShow():
 @app.route('/admin/edit_show/<show_id>',methods=['GET','POST'])
 def editShow(show_id):
     if request.method == 'GET':
-        return render_template('edit_show.html')
+        return render_template('edit_show.html',show_id=show_id)
     if request.method == 'POST':
         show_id=show_id
         show_name = request.form['show_name']
@@ -244,8 +244,8 @@ def editShow(show_id):
         # db.session.commit()
         conn = sqlite3.connect("database.sqlite3")
         cur = conn.cursor()
-        sql="""update table show set show_name=?, rating=?,price=?,date=?,time=?,availability=?,venue_id=? where show_id=?"""
-        cur.execute(sql,(show_name,rating,price,date,time,availability,venue_id,show_id,))
+        sql="""update table shows set show_name=?, rating=?, price=?, date=?, time=? ,availability=?, venue_id=? where show_id=?"""
+        cur.execute(sql,(show_name,rating,price,date,time,availability,venue_id,show_id))
         venues = cur.fetchall()
         return redirect('/admin_home')
 
