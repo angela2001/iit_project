@@ -172,8 +172,7 @@ def admin_home():
         query2 = """SELECT show_name,availability,show_id from shows where venue_id=?"""
         cur.execute(query2, (venue[0],))
         shows=cur.fetchall()
-        venueDict[venue[0]]=[venue[1],shows,venue[2]] 
-    print(venueDict)    
+        venueDict[venue[0]]=[venue[1],shows,venue[2]]    
     cur.close()
     return render_template("admin_home.html", venueDict=venueDict)
 
@@ -233,7 +232,6 @@ def editShow(show_id):
     if request.method == 'GET':
         return render_template('edit_show.html',show_id=show_id)
     if request.method == 'POST':
-        show_id=show_id
         show_name = request.form['show_name']
         rating = request.form['rating']
         price=request.form['price']
@@ -253,6 +251,23 @@ def editShow(show_id):
         cur.close()
         return redirect('/admin_home')
 
+@app.route('/admin/delete_show/<sid>',methods=['GET'])
+def deleteShow(sid):
+    conn = sqlite3.connect("database.sqlite3")
+    cur = conn.cursor()
+    sql="""DELETE FROM shows WHERE show_id=?"""
+    cur.execute(sql,(sid,))
+    conn.commit()
+    return redirect('/admin_home')
+
+@app.route('/admin/delete_venue/<venue_id>',methods=['GET'])
+def deleteVenue(venue_id):
+    conn = sqlite3.connect("database.sqlite3")
+    cur = conn.cursor()
+    sql="""DELETE FROM venue WHERE venue_id=?"""
+    cur.execute(sql,(venue_id,))
+    conn.commit()
+    return redirect('/admin_home')  
 
 
 @app.route('/show/<show_id>',methods=['GET'])
@@ -264,7 +279,6 @@ def show(show_id):
     sql="""select * from shows inner join venue on shows.venue_id=venue.venue_id where show_id=?"""
     cur.execute(sql,(show_id,))
     shows = cur.fetchall()
-    print(shows)
     #conn.commit()
     cur.close()
     return render_template('show.html',show=shows[0])
@@ -277,11 +291,9 @@ def ticketBooking(show_id):
     cur.execute(sql,(show_id,))
     availability=cur.fetchall()
     available=availability[0][0]-1
-    print(availability)
     sql="""update shows set availability=? where show_id=?"""
     cur.execute(sql,(available ,show_id,))
     shows = cur.fetchall()
-    print(shows)
     conn.commit()
     cur.close()
     return redirect('/home')
@@ -289,7 +301,6 @@ def ticketBooking(show_id):
 # @app.route('/profile', methods=['GET','POST'])
 # def profile():
     
-
 # Run app
 if __name__ == "__main__":
     app.run(debug=True)
