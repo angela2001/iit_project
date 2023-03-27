@@ -103,43 +103,30 @@ def signinpage():
 # Home page
 @app.route('/home', methods=['GET', 'POST'])
 def home():
-    # if request.method == 'GET':
-    #     conn = sqlite3.connect("database.sqlite3")
-    #     cur = conn.cursor()
-    #     query = """SELECT venue_name from venue"""
-    #     cur.execute(query)
-    #     venues = cur.fetchall()
-    #     cur.close()
-    #     return render_template("home.html", venues=venues)
-    # if request.method == 'POST':
-    #     if 'venueSearch' in request.form:
-    #         location = request.form['venuelocation']
-    #         conn = sqlite3.connect("database.sqlite3")
-    #         cur = conn.cursor()
-    #         query = """SELECT venue.venue_name, shows.show_name from venue inner join shows on venue.venue_id=shows.venue_id WHERE location=?"""
-    #         # show_query="""SELECT show_name from show WHERE """
-    #         cur.execute(query, (location,))
-    #         rows = cur.fetchall()
-    #         cur.close()
-    #         print(rows)
-    #         if (len(rows) == 0):
-    #             rows = [("No venues currently in this location hosting shows", "No shows")]
-    #         return render_template("home.html", venues=rows)
-    #     # elif 'showSearch' in request.form:
-    venueDict={}
-    conn = sqlite3.connect("database.sqlite3")
-    cur = conn.cursor()
-    query = """SELECT venue_id,venue_name,location from venue"""
-    cur.execute(query)
-    venues = cur.fetchall()
-    for venue in venues:
-        query2 = """SELECT show_name from shows where venue_id=?"""
-        cur.execute(query2, (venue[0],))
-        shows=cur.fetchall()
-        venueDict[venue[1]]=shows    
-    cur.close()
-    return render_template("home.html", venueDict=venueDict)
+    if request.method == 'GET':
+        conn = sqlite3.connect("database.sqlite3")
+        cur = conn.cursor()
+        query = """SELECT venue_name from venue"""
+        cur.execute(query)
+        venues = cur.fetchall()
+        cur.close()
+        return render_template("home.html", venues=venues)
+    if request.method == 'POST':
+        if 'venueSearch' in request.form:
+            location = request.form['venuelocation']
+            conn = sqlite3.connect("database.sqlite3")
+            cur = conn.cursor()
+            query = """SELECT venue.venue_name, shows.show_name from venue inner join shows on venue.venue_id=shows.venue_id WHERE location=?"""
+            #show_query="""SELECT show_name from show WHERE """
+            cur.execute(query,(location,))
+            rows = cur.fetchall()
+            cur.close()
+            print(rows)
+            if (len(rows)==0):
+                rows=[("No venues currently in this location hosting shows","No shows")]
+            return render_template("home.html", venues=rows)
 
+        
 
 @app.route('/admin_home', methods=['GET'])
 def admin_home():
