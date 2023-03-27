@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %} Add Venue {% endblock%}
+
+{% block body %} 
+<h1>Ticketing</h1>
+<div class='form'>   
+    <form action="/admin/add_show" method="POST" >  
+        <h3>New Show</h3>
+        <label>Show name : </label>   
+        <input type="text" placeholder= " Enter new show" name="show_name" required minlength="5">  
+        <br>
+        <label>Rating : </label>   
+        <input type="number" placeholder=" Enter rating (1-5)" name="rating">  
+        <br>
+        <label>Price : </label>   
+        <input type="number" placeholder=" Enter price" name="price">  
+        <br>
+        <label>Date : </label>   
+        <input type="text" placeholder= " Enter date 'yyyy-mm-dd'" name="date">  
+        <br>
+        <label>Time : </label>   
+        <input type="text" placeholder= " Enter time" name="time">  
+        <br>
+        <label>Venue id : </label>   
+        <input type="number" placeholder=" Enter venue id" name="venue_id">  
+        <br>
+        <button type="submit">Save</button>    
+        <br>
+        <div class="redirect">
+            <i class="italic"><a href='/admin_home'>Cancel</a></i> 
+        </div>
+    </form>     
+</div>
+{% endblock%}

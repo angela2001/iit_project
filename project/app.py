@@ -159,10 +159,51 @@ def admin_home():
 
 @app.route('/admin/add_venue', methods=['GET','POST'])
 def addVenue():
-    conn=sqlite3.connect('database.sqlite3')
-    cur=conn.cursor()
-    query="""insert into venue"""
+    if request.method == 'GET':
+        return render_template('add_venue.html')
+    if request.method == 'POST':
+        venue_name = request.form['venue_name']
+        location = request.form['location']
+        capacity=request.form['capacity']
+        venue = Venue(venue_name=venue_name, location=location, capacity=capacity)
+        db.session.add(venue)
+        db.session.commit()
+        return redirect('/admin_home')
+
+# @app.route('/admin/edit_venue',methods=['GET','POST'])
+# def editVenue():
+#     if request.method == 'GET':
+#         return render_template('edit_venue.html')
+#     if request.method == 'POST':
+#         venue_name = request.form['venue_name']
+#         location = request.form['location']
+#         capacity=request.form['capacity']
+#         venue = Venue(venue_name=venue_name, location=location, capacity=capacity)
+#         db.session.add(venue)
+#         db.session.commit()
+#         return redirect('/admin_home')
     
+@app.route('/admin/add_show',methods=['GET','POST'])
+def addShow():
+    if request.method == 'GET':
+        return render_template('add_show.html')
+    if request.method == 'POST':
+        show_name = request.form['show_name']
+        rating = request.form['rating']
+        price=request.form['price']
+        date=request.form['date']
+        time=request.form['time']
+        venue_id=request.form['venue_id']
+        show = Shows(show_name=show_name, rating=rating, price=price,date=date,time=time,venue_id=venue_id)
+        db.session.add(show)
+        db.session.commit()
+        return redirect('/admin_home')
+    
+# @app.route('/admin/edit_show',methods=['GET','POST'])
+# def editShow():
+    
+# @app.route('/book_ticket',methods=['GET','POST'])
+# def bookTicket():  
 
 # Run app
 if __name__ == "__main__":

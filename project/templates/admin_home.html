@@ -9,7 +9,9 @@
 
 <body>
     {% block body %}
+
     <div class="admin_home">
+    <a href='/admin/add_venue'><button class="addVenue">+</button></a>
     {% for venue,shows in venueDict.items() %}
     <div class="card">
         <h1>{{venue}}</h1>
@@ -21,16 +23,19 @@
         {% for show in shows %}
         <h3>{{show[0]}}</h3>
         <div class="manageShows">
-            <button>Edit Show</button>
+            <a href=""><button>Edit Show</button></a>
             <button>Delete Show</button>
         </div>
         {% endfor %}
-        <p><button>Edit Venue</button></p>
-        <p><button>Delete Venue</button></p>
+        <a href='/admin/add_show'><button>Add Show</button></a>
+        <div class="manageShows">
+            <a href=''><button>Edit Venue</button></p></a>
+            <button>Delete Venue</button></p>
+        </div>
     </div>
     {% endfor %}
     {% endblock %}
-    <a href='/admin/add_venue'><button class="addVenue">+</button></a>
+    
 </div>
 </body>
 
