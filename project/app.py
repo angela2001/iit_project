@@ -41,6 +41,7 @@ class Shows(db.Model):
     price = db.Column(db.Integer, nullable=False)
     date = db.Column(db.String)
     time = db.Column(db.String)
+    availability=db.Column(db.Integer)
     venue_id = db.Column(db.Integer, db.ForeignKey('venue.venue_id'))
 
 
@@ -168,7 +169,7 @@ def admin_home():
     cur.execute(query)
     venues = cur.fetchall()
     for venue in venues:
-        query2 = """SELECT show_name,availability from shows where venue_id=?"""
+        query2 = """SELECT show_name,availability,show_id from shows where venue_id=?"""
         cur.execute(query2, (venue[0],))
         shows=cur.fetchall()
         venueDict[venue[0]]=[venue[1],shows,venue[2]] 
@@ -189,18 +190,24 @@ def addVenue():
         db.session.commit()
         return redirect('/admin_home')
 
-# @app.route('/admin/edit_venue',methods=['GET','POST'])
-# def editVenue():
-#     if request.method == 'GET':
-#         return render_template('edit_venue.html')
-#     if request.method == 'POST':
-#         venue_name = request.form['venue_name']
-#         location = request.form['location']
-#         capacity=request.form['capacity']
-#         venue = Venue(venue_name=venue_name, location=location, capacity=capacity)
-#         db.session.add(venue)
-#         db.session.commit()
-#         return redirect('/admin_home')
+@app.route('/admin/edit_venue/<venue_id>',methods=['GET','POST'])
+def editVenue(venue_id):
+    if request.method == 'GET':
+        return render_template('edit_venue.html')
+    if request.method == 'POST':
+        venue_id=venue_id
+        venue_name = request.form['venue_name']
+        location = request.form['location']
+        capacity=request.form['capacity']
+        # venue = Venue(venue_name=venue_name, location=location, capacity=capacity)
+        # db.session.add(venue)
+        # db.session.commit()
+        conn = sqlite3.connect("database.sqlite3")
+        cur = conn.cursor()
+        sql="""update table venue set venue_name=?, location=?,capacity=? where venue_id=?"""
+        cur.execute(sql,(venue_name,location,capacity,venue_id))
+        venues = cur.fetchall()
+        return redirect('/admin_home')
     
 @app.route('/admin/add_show',methods=['GET','POST'])
 def addShow():
@@ -212,15 +219,36 @@ def addShow():
         price=request.form['price']
         date=request.form['date']
         time=request.form['time']
+        availability=request.form['availability']
         venue_id=request.form['venue_id']
-        show = Shows(show_name=show_name, rating=rating, price=price,date=date,time=time,venue_id=venue_id)
+        show = Shows(show_name=show_name, rating=rating, price=price,date=date,time=time,availability=availability,venue_id=venue_id)
         db.session.add(show)
         db.session.commit()
         return redirect('/admin_home')
     
-# @app.route('/admin/edit_show',methods=['GET','POST'])
-# def editShow():
-    
+@app.route('/admin/edit_show/<show_id>',methods=['GET','POST'])
+def editShow(show_id):
+    if request.method == 'GET':
+        return render_template('edit_show.html')
+    if request.method == 'POST':
+        show_id=show_id
+        show_name = request.form['show_name']
+        rating = request.form['rating']
+        price=request.form['price']
+        date=request.form['date']
+        time=request.form['time']
+        availability=request.form['availability']
+        venue_id=request.form['venue_id']
+        # venue = Venue(venue_name=venue_name, location=location, capacity=capacity)
+        # db.session.add(venue)
+        # db.session.commit()
+        conn = sqlite3.connect("database.sqlite3")
+        cur = conn.cursor()
+        sql="""update table show set show_name=?, rating=?,price=?,date=?,time=?,availability=?,venue_id=? where show_id=?"""
+        cur.execute(sql,(show_name,rating,price,date,time,availability,venue_id,show_id,))
+        venues = cur.fetchall()
+        return redirect('/admin_home')
+
 # @app.route('/book_ticket',methods=['GET','POST'])
 # def bookTicket():  
 
