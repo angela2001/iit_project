@@ -231,7 +231,6 @@ def editShow(show_id):
     if request.method == 'GET':
         return render_template('edit_show.html',show_id=show_id)
     if request.method == 'POST':
-        show_id=show_id
         show_name = request.form['show_name']
         rating = request.form['rating']
         price=request.form['price']
@@ -248,6 +247,24 @@ def editShow(show_id):
         cur.execute(sql,(show_name,rating,price,date,time,availability,venue_id,show_id))
         venues = cur.fetchall()
         return redirect('/admin_home')
+
+@app.route('/admin/delete_show/<sid>',methods=['GET'])
+def deleteShow(sid):
+    conn = sqlite3.connect("database.sqlite3")
+    cur = conn.cursor()
+    sql="""DELETE FROM shows WHERE show_id=?"""
+    cur.execute(sql,(sid,))
+    conn.commit()
+    return redirect('/admin_home')
+
+@app.route('/admin/delete_venue/<venue_id>',methods=['GET'])
+def deleteVenue(venue_id):
+    conn = sqlite3.connect("database.sqlite3")
+    cur = conn.cursor()
+    sql="""DELETE FROM venue WHERE venue_id=?"""
+    cur.execute(sql,(venue_id,))
+    conn.commit()
+    return redirect('/admin_home')
 
 # @app.route('/book_ticket',methods=['GET','POST'])
 # def bookTicket():  

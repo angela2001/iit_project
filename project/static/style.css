@@ -224,7 +224,7 @@ a {
   margin: auto;
   text-align: center;
   font-family: arial;
-  margin-top:5vh;
+  margin-bottom:5vh;
   padding: 3vh;
   padding-top: 0;
 }
@@ -243,4 +243,13 @@ a {
 .addVenue{
 width: 7%;
 margin-top: 5vh;
+margin-bottom: 5vh;
+}
+
+.manageVenues{
+  display: flex;
+  min-width:100%;
+  justify-content: center;
+  margin-top: 2%;
+  margin-bottom: 1%;
 }
