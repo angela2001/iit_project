@@ -1,10 +1,10 @@
 {% extends "base.html" %}
-{% block title %}Flash cards{% endblock %}
+{% block title %}Ticketing{% endblock %}
 {% block body %}
 <header>
     <div class="container">
         <div class="nav">
-            <h1>Flash Learn </h1>
+            <h1>Ticketing </h1>
             <div><button onclick="">Venues</button>
                 <button onclick="">Shows</button>
             </div>
@@ -12,45 +12,24 @@
     </div>
 </header>
 
-<div class="container3">
-    <div id="st-box">
-        <h1>Venues</h1>
-        <div class="search-container">
-            <form action="/home" method="POST">
-                <input type="text" placeholder="Search by Location.." name="venuelocation" class="Search">
-                <button type="submit" name="venueSearch">search</button>
-            </form>
-        </div>
-        <div>
-            {% if venues is defined%}
-            <ol>
-                {% for venue in venues %}
-                    <li>{{venue[0]}}</li>
-                {% endfor %}
-            </ol>
+<div class="home">
+    {% for venue,shows in venueDict.items() %}
+        <div class="card">
+            <h1>{{venue}}</h1>
+            {% if shows|length == 0%}
+                <div class="manageShows">
+                    <h3>No shows added for this venue</h3>
+                </div>
             {% endif %}
+            {% for show in shows %}
+                <h3>{{show[0]}}</h3>
+                <div class="manageShows">
+                    <button>Book Show</button>
+                </div>
+            {% endfor %}
         </div>
+    {% endfor %}
     </div>
-
-    <div id="rd-box">
-        <h1>Shows</h1>
-        <div class="search-container">
-            <form action="">
-                <input type="text" placeholder="Search.." name="search" class="Search">
-                <button type="submit">search</button>
-            </form>
-        </div>
-        <div>
-            {% if venues is defined%}
-            <ol>
-                {% for venue in venues %}
-                    <li>{{venue[1]}}</li>
-                {% endfor %}
-            </ol>
-            {% endif %}
-        </div>
-    </div>
-</div>
-<div class="flashcards"></div>
-<script src="/static/script.js"></script>
 {% endblock %}
+
+
