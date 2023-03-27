@@ -112,7 +112,7 @@ def home():
         cur.execute(query)
         venues = cur.fetchall()
         for venue in venues:
-            query2 = """SELECT show_name,availability from shows where venue_id=?"""
+            query2 = """SELECT show_name,availability,show_id from shows where venue_id=?"""
             cur.execute(query2, (venue[0],))
             shows=cur.fetchall()
             venueDict[venue[0]]=[venue[1],shows,venue[2]] 
@@ -129,7 +129,7 @@ def home():
             cur.execute(query,(location,))
             venues = cur.fetchall()
             for venue in venues:
-                query2 = """SELECT show_name,availability from shows where venue_id=?"""
+                query2 = """SELECT show_name,availability,show_id from shows where venue_id=?"""
                 cur.execute(query2, (venue[0],))
                 shows=cur.fetchall()
                 venueDict[venue[0]]=[venue[1],shows,venue[2]]    
@@ -172,8 +172,7 @@ def admin_home():
         query2 = """SELECT show_name,availability,show_id from shows where venue_id=?"""
         cur.execute(query2, (venue[0],))
         shows=cur.fetchall()
-        venueDict[venue[0]]=[venue[1],shows,venue[2]] 
-    print(venueDict)    
+        venueDict[venue[0]]=[venue[1],shows,venue[2]]    
     cur.close()
     return render_template("admin_home.html", venueDict=venueDict)
 
@@ -193,7 +192,7 @@ def addVenue():
 @app.route('/admin/edit_venue/<venue_id>',methods=['GET','POST'])
 def editVenue(venue_id):
     if request.method == 'GET':
-        return render_template('edit_venue.html')
+        return render_template('edit_venue.html',venue_id=venue_id)
     if request.method == 'POST':
         venue_id=venue_id
         venue_name = request.form['venue_name']
@@ -204,9 +203,11 @@ def editVenue(venue_id):
         # db.session.commit()
         conn = sqlite3.connect("database.sqlite3")
         cur = conn.cursor()
-        sql="""update table venue set venue_name=?, location=?,capacity=? where venue_id=?"""
-        cur.execute(sql,(venue_name,location,capacity,venue_id))
+        sql="""update venue set venue_name=?, location=?,capacity=? where venue_id=?"""
+        cur.execute(sql,(venue_name,location,capacity,venue_id,))
         venues = cur.fetchall()
+        conn.commit()
+        cur.close()
         return redirect('/admin_home')
     
 @app.route('/admin/add_show',methods=['GET','POST'])
@@ -243,9 +244,11 @@ def editShow(show_id):
         # db.session.commit()
         conn = sqlite3.connect("database.sqlite3")
         cur = conn.cursor()
-        sql="""update table shows set show_name=?, rating=?, price=?, date=?, time=? ,availability=?, venue_id=? where show_id=?"""
-        cur.execute(sql,(show_name,rating,price,date,time,availability,venue_id,show_id))
+        sql="""update shows set show_name=?, rating=?, price=?, date=?, time=? ,availability=?, venue_id=? where show_id=?"""
+        cur.execute(sql,(show_name,rating,price,date,time,availability,venue_id,show_id,))
         venues = cur.fetchall()
+        conn.commit()
+        cur.close()
         return redirect('/admin_home')
 
 @app.route('/admin/delete_show/<sid>',methods=['GET'])
@@ -264,11 +267,40 @@ def deleteVenue(venue_id):
     sql="""DELETE FROM venue WHERE venue_id=?"""
     cur.execute(sql,(venue_id,))
     conn.commit()
-    return redirect('/admin_home')
+    return redirect('/admin_home')  
 
-# @app.route('/book_ticket',methods=['GET','POST'])
-# def bookTicket():  
 
+@app.route('/show/<show_id>',methods=['GET'])
+def show(show_id):
+    # if request.method=='GET':
+    show_id=show_id
+    conn = sqlite3.connect("database.sqlite3")
+    cur = conn.cursor()
+    sql="""select * from shows inner join venue on shows.venue_id=venue.venue_id where show_id=?"""
+    cur.execute(sql,(show_id,))
+    shows = cur.fetchall()
+    #conn.commit()
+    cur.close()
+    return render_template('show.html',show=shows[0])
+
+@app.route('/booking/<show_id>',methods=['GET'])
+def ticketBooking(show_id):
+    conn = sqlite3.connect("database.sqlite3")
+    cur = conn.cursor()
+    sql= """select availability from shows where show_id=?"""
+    cur.execute(sql,(show_id,))
+    availability=cur.fetchall()
+    available=availability[0][0]-1
+    sql="""update shows set availability=? where show_id=?"""
+    cur.execute(sql,(available ,show_id,))
+    shows = cur.fetchall()
+    conn.commit()
+    cur.close()
+    return redirect('/home')
+
+# @app.route('/profile', methods=['GET','POST'])
+# def profile():
+    
 # Run app
 if __name__ == "__main__":
     app.run(debug=True)

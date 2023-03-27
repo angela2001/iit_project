@@ -5,8 +5,7 @@
     <div class="container">
         <div class="nav">
             <h1>Ticketing </h1>
-            <div><button onclick="">Venues</button>
-                <button onclick="">Shows</button>
+            <div><a href='/home'><button>Home</button></a>
             </div>
         </div>
     </div>
@@ -26,15 +25,13 @@
                 </div>
             {% endif %}
             {% for show in value[1] %}
-                <h3>{{show[0]}}</h3>
-                <h3>Capacity: {{show[1]}}</h3>
+                <h3 ><a href="/show/{{show[2]}}">{{show[0]}}</a></h3>
+                <h3>Availability: {{show[1]}}</h3>
                 <div class="manageShows">
-                    <button>Book Show</button>
+                    <a href='/show/{{show[2]}}'><button>Book Show</button></a>
                 </div>
             {% endfor %}
         </div>
     {% endfor %}
     </div>
 {% endblock %}
-
-

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %} Show {% endblock%}
+
+{% block body %} 
+<h1>Ticketing</h1>
+<div class="card">
+    <h1>{{show[1]}}</h1>
+    <div>
+        <h3>Rating: {{show[2]}} </h3>
+    </div>
+    <div>
+        <h3>Price: {{show[3]}}</h3>
+    </div>
+    <div>
+        <h3>Date:{{show[4]}} </h3>
+    </div>
+    <div>
+        <h3>Time:{{show[5]}} </h3>
+    </div>
+    <div>
+        <h3>Availability: {{show[7]}}</h3>
+    </div>
+    <div>
+        <h3>Venue:{{show[9]}} </h3>
+    </div>
+    <div>
+        <h3>Location:{{show[10]}} </h3>
+    </div>
+    <a href='/booking/{{show[0]}}'><button>Book</button></a>
+</div>
+{% endblock%}
