@@ -11,16 +11,15 @@
     {% block body %}
 
     <div class="admin_home">
-    <a href='/admin/add_venue'><button class="addVenue">+</button></a>
-    {% for venue,shows in venueDict.items() %}
+    {% for key,value in venueDict.items() %}
     <div class="card">
-        <h1>{{venue}}</h1>
-        {% if shows|length == 0%}
+        <h1>{{value[0]}}</h1>
+        {% if value[1]|length == 0%}
         <div class="manageShows">
             <h3>No shows added for this venue</h3>
         </div>
         {% endif %}
-        {% for show in shows %}
+        {% for show in value[1] %}
         <h3>{{show[0]}}</h3>
         <div class="manageShows">
             <a href=""><button>Edit Show</button></a>

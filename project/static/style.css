@@ -193,6 +193,10 @@ a {
   width: 50%;
 }
 
+.home{
+  text-align: center;
+}
+
 .search-container{
   display: flex;
   overflow: hidden;
@@ -202,9 +206,10 @@ a {
   padding: 6px;
   margin-top: 8px;
   font-size: 17px;
-  width: 80%;
-  border: none;
-  float: left;
+  width: 40%;
+  border-radius: 10px;
+  border-color: #fbf1ff;
+  /* border: none; */
 }
 
 .search-container button {

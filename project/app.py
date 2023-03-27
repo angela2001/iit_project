@@ -103,19 +103,37 @@ def signinpage():
 # Home page
 @app.route('/home', methods=['GET', 'POST'])
 def home():
-    venueDict={}
-    conn = sqlite3.connect("database.sqlite3")
-    cur = conn.cursor()
-    query = """SELECT venue_id,venue_name,location from venue"""
-    cur.execute(query)
-    venues = cur.fetchall()
-    for venue in venues:
-        query2 = """SELECT show_name from shows where venue_id=?"""
-        cur.execute(query2, (venue[0],))
-        shows=cur.fetchall()
-        venueDict[venue[1]]=shows    
-    cur.close()
-    return render_template("home.html", venueDict=venueDict)
+    if request.method == 'GET':
+        venueDict={}
+        conn = sqlite3.connect("database.sqlite3")
+        cur = conn.cursor()
+        query = """SELECT venue_id,venue_name,location from venue"""
+        cur.execute(query)
+        venues = cur.fetchall()
+        for venue in venues:
+            query2 = """SELECT show_name,availability from shows where venue_id=?"""
+            cur.execute(query2, (venue[0],))
+            shows=cur.fetchall()
+            venueDict[venue[0]]=[venue[1],shows,venue[2]] 
+        # print(venueDict)    
+        cur.close()
+        return render_template("home.html", venueDict=venueDict)
+    if request.method == 'POST':
+        venueDict={}
+        if 'venueSearch' in request.form:
+            location = request.form['venuelocation']
+            conn = sqlite3.connect("database.sqlite3")
+            cur = conn.cursor()
+            query = """SELECT venue_id,venue_name,location from venue WHERE location=?"""
+            cur.execute(query,(location,))
+            venues = cur.fetchall()
+            for venue in venues:
+                query2 = """SELECT show_name,availability from shows where venue_id=?"""
+                cur.execute(query2, (venue[0],))
+                shows=cur.fetchall()
+                venueDict[venue[0]]=[venue[1],shows,venue[2]]    
+            cur.close()
+            return render_template("home.html", venueDict=venueDict)
     # if request.method == 'GET':
     #     conn = sqlite3.connect("database.sqlite3")
     #     cur = conn.cursor()
@@ -150,10 +168,11 @@ def admin_home():
     cur.execute(query)
     venues = cur.fetchall()
     for venue in venues:
-        query2 = """SELECT show_name from shows where venue_id=?"""
+        query2 = """SELECT show_name,availability from shows where venue_id=?"""
         cur.execute(query2, (venue[0],))
         shows=cur.fetchall()
-        venueDict[venue[1]]=shows    
+        venueDict[venue[0]]=[venue[1],shows,venue[2]] 
+    print(venueDict)    
     cur.close()
     return render_template("admin_home.html", venueDict=venueDict)
 
