@@ -25,28 +25,31 @@ class User(db.Model):
     username = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
 
+
 class Admin(db.Model):
     _tablename_ = 'admin'
     admin_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     admin_name = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
-    
+
+
 class Shows(db.Model):
-    _tablename_='shows'
-    show_id =db.Column(db.Integer, primary_key=True, autoincrement=True)
-    show_name= db.Column(db.String, unique=True, nullable=False)
-    rating=db.Column(db.Integer)
-    price=db.Column(db.Integer, nullable=False)
-    date=db.Column(db.String)
-    time =db.Column(db.String)
-    venue_id=db.Column(db.Integer,db.ForeignKey('venue.venue_id'))
-    
+    _tablename_ = 'shows'
+    show_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    show_name = db.Column(db.String, unique=True, nullable=False)
+    rating = db.Column(db.Integer)
+    price = db.Column(db.Integer, nullable=False)
+    date = db.Column(db.String)
+    time = db.Column(db.String)
+    venue_id = db.Column(db.Integer, db.ForeignKey('venue.venue_id'))
+
+
 class Venue(db.Model):
-    _tablename_='venue'
-    venue_id =db.Column(db.Integer, primary_key=True, autoincrement=True)
-    venue_name= db.Column(db.String, unique=True, nullable=False)
-    location=db.Column(db.String)
-    capacity =db.Column(db.Integer)
+    _tablename_ = 'venue'
+    venue_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    venue_name = db.Column(db.String, unique=True, nullable=False)
+    location = db.Column(db.String)
+    capacity = db.Column(db.Integer)
 
 
 # Login
@@ -63,7 +66,7 @@ def login():
         if validlogin:
             return redirect('/home'.format(username))
         return render_template('invalid_login.html')
-    
+
 
 @app.route('/admin_login', methods=['GET', 'POST'])
 def admin_login():
@@ -72,10 +75,11 @@ def admin_login():
     elif request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        validlogin = db.session.query(Admin).filter(Admin.admin_name == username, Admin.password == password).first()
+        validlogin = db.session.query(Admin).filter(
+            Admin.admin_name == username, Admin.password == password).first()
         if validlogin:
             return redirect('/admin_home'.format(username))
-        return render_template('invalid_login.html')    
+        return render_template('invalid_login.html')
 
 # Sign-up page
 
@@ -97,7 +101,7 @@ def signinpage():
 
 
 # Home page
-@app.route('/home', methods=['GET','POST'])
+@app.route('/home', methods=['GET', 'POST'])
 def home():
     if request.method == 'GET':
         conn = sqlite3.connect("database.sqlite3")
@@ -113,20 +117,32 @@ def home():
             conn = sqlite3.connect("database.sqlite3")
             cur = conn.cursor()
             query = """SELECT venue.venue_name, shows.show_name from venue inner join shows on venue.venue_id=shows.venue_id WHERE location=?"""
-            #show_query="""SELECT show_name from show WHERE """
-            cur.execute(query,(location,))
+            # show_query="""SELECT show_name from show WHERE """
+            cur.execute(query, (location,))
             rows = cur.fetchall()
             cur.close()
             print(rows)
-            if (len(rows)==0):
-                rows=[("No venues currently in this location hosting shows","No shows")]
+            if (len(rows) == 0):
+                rows = [("No venues currently in this location hosting shows", "No shows")]
             return render_template("home.html", venues=rows)
+        # elif 'showSearch' in request.form:
 
-        
 
 @app.route('/admin_home', methods=['GET'])
 def admin_home():
-    return render_template("admin_home.html")
+    venueDict={}
+    conn = sqlite3.connect("database.sqlite3")
+    cur = conn.cursor()
+    query = """SELECT venue_id,venue_name,location from venue"""
+    cur.execute(query)
+    venues = cur.fetchall()
+    for venue in venues:
+        query2 = """SELECT show_name from shows where venue_id=?"""
+        cur.execute(query2, (venue[0],))
+        shows=cur.fetchall()
+        venueDict[venue[1]]=shows    
+    cur.close()
+    return render_template("admin_home.html", venueDict=venueDict)
 
 
 
