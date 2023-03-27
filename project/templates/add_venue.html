@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %} Add Venue {% endblock%}
+
+{% block body %} 
+<h1>Ticketing</h1>
+<div class='form'>   
+    <form action="/admin/add_venue" method="POST" >  
+        <h3>New Venue</h3>
+        <label>Venue name : </label>   
+        <input type="text" placeholder= " Enter new venue" name="venue_name" required minlength="5">  
+        <br>
+        <label>Location : </label>   
+        <input type="text" placeholder=" Enter location" name="location">  
+        <br>
+        <label>Capacity : </label>   
+        <input type="number" placeholder=" Enter Capacity" name="capacity">  
+        <br>
+        <button type="submit">Save</button>    
+        <br>
+        <div class="redirect">
+            <i class="italic"><a href='/admin_home'>Cancel</a></i> 
+        </div>
+    </form>     
+</div>
+{% endblock%}

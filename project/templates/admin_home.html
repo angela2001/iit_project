@@ -9,8 +9,10 @@
 
 <body>
     {% block body %}
+
     <div class="admin_home">
-    {% for key,value in venueDict.items() %}
+    <a href="/admin/add_venue"><button>+</button></a>
+    {% for venue_id,value in venueDict.items() %}
     <div class="card">
         <h1>{{value[0]}}</h1>
         {% if value[1]|length == 0%}
@@ -21,16 +23,19 @@
         {% for show in value[1] %}
         <h3>{{show[0]}}</h3>
         <div class="manageShows">
-            <button>Edit Show</button>
+            <a href="/admin/edit_show/{{show[2]}}"><button>Edit Show</button></a>
             <button>Delete Show</button>
         </div>
         {% endfor %}
-        <p><button>Edit Venue</button></p>
-        <p><button>Delete Venue</button></p>
+        <a href='/admin/add_show'><button>Add Show</button></a>
+        <div class="manageShows">
+            <a href='/admin/edit_venue/{{venue_id}}'><button>Edit Venue</button></p></a>
+            <button>Delete Venue</button></p>
+        </div>
     </div>
     {% endfor %}
     {% endblock %}
-    <a href='/admin/add_venue'><button class="addVenue">+</button></a>
+    
 </div>
 </body>
 
