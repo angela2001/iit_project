@@ -51,6 +51,7 @@ class Shows(db.Model):
     time = db.Column(db.String)
     availability=db.Column(db.Integer)
     venue_id = db.Column(db.Integer, db.ForeignKey('venue.venue_id'))
+    ratingno = db.Column(db.Integer)
 
 
 class Venue(db.Model):
@@ -59,7 +60,8 @@ class Venue(db.Model):
     venue_name = db.Column(db.String, unique=True, nullable=False)
     location = db.Column(db.String)
     capacity = db.Column(db.Integer)
-
+    rating = db.Column(db.Integer)
+    ratingno = db.Column(db.Integer)
 
 # Login
 
@@ -341,7 +343,7 @@ def book(show_id):
         cur.execute(sql,(show_id,))
         availability=cur.fetchall()
         #print(availability)
-        if(availability[0][0]>((int(num)+1))):
+        if(availability[0][0]>=((int(num)))):
             #pag.alert(text="Hello World", title="The Hello World Box")
             #win32api.MessageBox(0, 'hello', 'title')
             #messagebox.showinfo("Title", "Message")
@@ -355,14 +357,13 @@ def book(show_id):
         else:
             return render_template('booking_failed.html')
 
-
 @app.route('/venue/<venue_id>',methods=['GET'])
 def venue(venue_id):
     # if request.method=='GET':
     venue_id=venue_id
     conn = sqlite3.connect("database.sqlite3")
     cur = conn.cursor()
-    sql1="""select venue_name, location, capacity from venue where venue_id=? """
+    sql1="""select venue_name, location, capacity,rating from venue where venue_id=? """
     sql="""select shows.show_name, shows.rating, shows.price, shows.date, shows.time, shows.availability from venue left join shows on shows.venue_id=venue.venue_id where venue.venue_id=?"""
     cur.execute(sql1,(venue_id,))
     venue_info= cur.fetchall()
@@ -372,6 +373,57 @@ def venue(venue_id):
     cur.close()
     #print(venue)
     return render_template('venue.html', venue=venue,venue_info=venue_info[0])
+
+
+
+@app.route('/rate/show/<show_id>',methods=['GET','POST'])
+def rateShow(show_id):
+    if request.method=='GET':
+        return render_template('add_show_rating.html',show_id=show_id)
+    #new_rating=request.form['rating']
+    elif request.method=='POST':
+        new_rating=int(request.form['rating'])
+        conn = sqlite3.connect("database.sqlite3")
+        cur = conn.cursor()
+        sql="""select rating, ratingno from shows where show_id=?"""
+        cur.execute(sql,(show_id,))
+        show_info= cur.fetchall()
+        rating=show_info[0][0]
+        num=show_info[0][1]
+        num=num+1
+        new_rating= (new_rating+rating)/num
+        print(new_rating)
+       
+        sql1="""update shows set rating=? , ratingno=? where show_id=?"""
+        cur.execute(sql1,(new_rating,num,show_id,))
+        conn.commit()
+        #print(show_info)
+        cur.close()
+        return render_template('rating.html')
+
+@app.route('/rate/venue/<venue_id>',methods=['GET','POST'])
+def rateVenue(venue_id):
+    if request.method=='GET':
+        return render_template('add_venue_rating.html',venue_id=venue_id)
+    
+    elif request.method=='POST':
+        new_rating=int(request.form['rating'])
+        conn = sqlite3.connect("database.sqlite3")
+        cur = conn.cursor()
+        sql="""select rating, ratingno from venue where venue_id=?"""
+        cur.execute(sql,(venue_id,))
+        venue_info= cur.fetchall()
+        rating=int(venue_info[0][0])
+        num=int(venue_info[0][1])
+        num=num+1
+        new_rating= (new_rating+rating)/num
+        
+        sql1="""update venue set rating=? , ratingno=? where venue_id=?"""
+        cur.execute(sql1,(new_rating,num,venue_id,))
+        conn.commit()
+        cur.close()
+        return render_template('rating.html')
+        
 
 # @app.route('/profile', methods=['GET','POST'])
 # def profile():+

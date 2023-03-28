@@ -23,6 +23,7 @@
     {% for key,value in venueDict.items() %}
         <div class="card">
             <h1><a href="/venue/{{key}}">{{value[0]}}</a></h1>
+            <a href='/rate/venue/{{key}}'><button>Rate Venue</button></a>
             {% if value[1]|length == 0%}
                 <div class="manageShows">
                     <h3>No shows added for this venue</h3>
@@ -33,6 +34,7 @@
                 <h3>Availability: {{show[1]}}</h3>
                 <div class="manageShows">
                     <a href='/show/{{show[2]}}'><button>Book Show</button></a>
+                    <a href='/rate/show/{{show[2]}}'><button>Rate Show</button></a>
                 </div>
             {% endfor %}
         </div>
