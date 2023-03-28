@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Ticketing{% endblock %}
+{% block body %}
+<header>
+    <div class="container">
+        <div class="nav">
+            <h1>Ticketing </h1>
+            <div><a href='/admin_home'><button>Home</button></a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="home">
+    {% for venue in venues %}
+        <div class="card">
+            
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}
