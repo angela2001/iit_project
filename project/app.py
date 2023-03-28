@@ -130,7 +130,7 @@ def home():
     if request.method == 'POST':
         venueDict={}
         if 'venueSearch' in request.form:
-            location = request.form['venuelocation']
+            location = request.form['searchTag']
             conn = sqlite3.connect("database.sqlite3")
             cur = conn.cursor()
             query = """SELECT venue_id,venue_name,location from venue WHERE location=?"""
@@ -141,6 +141,36 @@ def home():
                 cur.execute(query2, (venue[0],))
                 shows=cur.fetchall()
                 venueDict[venue[0]]=[venue[1],shows,venue[2]]    
+            cur.close()
+            return render_template("home.html", venueDict=venueDict)
+        elif 'showSearchRating' in request.form:
+            rating = int(request.form['searchTag'])
+            conn = sqlite3.connect("database.sqlite3")
+            cur = conn.cursor()
+            query = """SELECT venue_id,venue_name,location from venue"""
+            cur.execute(query)
+            venues = cur.fetchall()
+            for venue in venues:
+                query2 = """SELECT show_name,availability,show_id, rating from shows where venue_id=? and rating>=?"""
+                cur.execute(query2, (venue[0],rating))
+                shows=cur.fetchall()
+                if len(shows)>0:
+                    venueDict[venue[0]]=[venue[1],shows,venue[2]]    
+            cur.close()
+            return render_template("home.html", venueDict=venueDict)
+        elif 'showSearchName' in request.form:
+            name = request.form['searchTag']
+            conn = sqlite3.connect("database.sqlite3")
+            cur = conn.cursor()
+            query = """SELECT venue_id,venue_name,location from venue"""
+            cur.execute(query)
+            venues = cur.fetchall()
+            for venue in venues:
+                query2 = """SELECT show_name,availability,show_id, rating from shows where venue_id=? and show_name=?"""
+                cur.execute(query2, (venue[0],name))
+                shows=cur.fetchall()
+                if len(shows)>0:
+                    venueDict[venue[0]]=[venue[1],shows,venue[2]]    
             cur.close()
             return render_template("home.html", venueDict=venueDict)
     # if request.method == 'GET':
