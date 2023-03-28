@@ -18,7 +18,7 @@
     </form>
     {% for key,value in venueDict.items() %}
         <div class="card">
-            <h1>{{value[0]}}</h1>
+            <h1><a href="/venue/{{key}}">{{value[0]}}</a></h1>
             {% if value[1]|length == 0%}
                 <div class="manageShows">
                     <h3>No shows added for this venue</h3>

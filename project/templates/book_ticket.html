@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %} Book {% endblock%}
+
+{% block body %} 
+<h1>Ticketing</h1>
+<div class="card">
+    <h1>{{shows[1]}}</h1>
+    <div>
+        <h3>Rating: {{shows[2]}} </h3>
+    </div>
+    <div>
+        <h3>Price: {{shows[3]}}</h3>
+    </div>
+    <div>
+        <h3>Date:{{shows[4]}} </h3>
+    </div>
+    <div>
+        <h3>Time:{{shows[5]}} </h3>
+    </div>
+    <div>
+        <h3>Availability: {{shows[7]}}</h3>
+    </div>
+    <form method="POST" action ='/book_ticket/{{shows[0]}}'>
+    <label>Enter number of tickets</label>
+    <input type="number" name="tickets"/>
+    <button type="submit" >Book</button>
+    </form>
+</div>
+{% endblock%}

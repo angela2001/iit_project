@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %} Show {% endblock%}
+
+{% block body %} 
+<h1>Ticketing</h1>
+<div class="card">
+    <h1>{{venue_info[0]}}</h1>
+    <h3>Location: {{venue_info[1]}}</h3>
+    <h3>Capacity: {{venue_info[2]}}</h3>
+    <br>
+    <h3>Shows</h3>
+    <br>
+    {% for show in venue%}
+    <div>
+        <h3>Show Name: {{show[0]}} </h3>
+    </div>
+    <div>
+        <h3>Rating: {{show[1]}}</h3>
+    </div>
+    <div>
+        <h3>Price: {{show[2]}} </h3>
+    </div>
+    <div>
+        <h3>Date: {{show[3]}} </h3>
+    </div>
+    <div>
+        <h3>Time: {{show[4]}}</h3>
+    </div>
+    <div>
+        <h3>Availability: {{show[5]}} </h3>
+    </div>
+    <br>
+    {% endfor %}
+</div>
+{% endblock%}

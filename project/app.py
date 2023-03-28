@@ -2,6 +2,14 @@ from flask import Flask, render_template, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 import os
 import sqlite3
+#import pyautogui as pag
+#import win32api
+
+# import tkinter
+# from tkinter import messagebox
+
+# root = tkinter.Tk()
+# root.withdraw()
 
 current_dir = os.path.abspath(os.path.dirname(__file__))
 
@@ -287,20 +295,56 @@ def show(show_id):
 def ticketBooking(show_id):
     conn = sqlite3.connect("database.sqlite3")
     cur = conn.cursor()
-    sql= """select availability from shows where show_id=?"""
-    cur.execute(sql,(show_id,))
-    availability=cur.fetchall()
-    available=availability[0][0]-1
-    sql="""update shows set availability=? where show_id=?"""
-    cur.execute(sql,(available ,show_id,))
-    shows = cur.fetchall()
-    conn.commit()
+    sql1="""select * from shows where show_id=?"""
+    cur.execute(sql1,(show_id,))
+    shows=cur.fetchall()
     cur.close()
-    return redirect('/home')
+    return render_template('book_ticket.html',shows=shows[0])
+
+@app.route('/book_ticket/<show_id>', methods=['POST'])
+def book(show_id):
+    if request.method == 'POST':
+        num = request.form['tickets']
+        conn = sqlite3.connect("database.sqlite3")
+        cur = conn.cursor()
+        sql= """select availability from shows where show_id=?"""
+        cur.execute(sql,(show_id,))
+        availability=cur.fetchall()
+        #print(availability)
+        if(availability[0][0]>((int(num)+1))):
+            #pag.alert(text="Hello World", title="The Hello World Box")
+            #win32api.MessageBox(0, 'hello', 'title')
+            #messagebox.showinfo("Title", "Message")
+            available=availability[0][0]-int(num)
+            sql="""update shows set availability=? where show_id=?"""
+            cur.execute(sql,(available ,show_id,))
+            shows = cur.fetchall()
+            conn.commit()
+            cur.close()
+            return render_template('booking_successful.html')
+        else:
+            return render_template('booking_failed.html')
+
+
+@app.route('/venue/<venue_id>',methods=['GET'])
+def venue(venue_id):
+    # if request.method=='GET':
+    venue_id=venue_id
+    conn = sqlite3.connect("database.sqlite3")
+    cur = conn.cursor()
+    sql1="""select venue_name, location, capacity from venue where venue_id=? """
+    sql="""select shows.show_name, shows.rating, shows.price, shows.date, shows.time, shows.availability from venue left join shows on shows.venue_id=venue.venue_id where venue.venue_id=?"""
+    cur.execute(sql1,(venue_id,))
+    venue_info= cur.fetchall()
+    cur.execute(sql,(venue_id,))
+    venue = cur.fetchall()
+    #conn.commit()
+    cur.close()
+    #print(venue)
+    return render_template('venue.html', venue=venue,venue_info=venue_info[0])
 
 # @app.route('/profile', methods=['GET','POST'])
-# def profile():
-    
+# def profile():+
 # Run app
 if __name__ == "__main__":
     app.run(debug=True)
