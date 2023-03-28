@@ -12,10 +12,14 @@
 </header>
 
 <div class="home">
-    <form action="/home" method="POST">
-        <input type="text" placeholder="Search by Location.." name="venuelocation" class="Search">
-        <button type="submit" name="venueSearch">search</button>
-    </form>
+    <div class="search">
+        <form action="/home" method="POST">
+            <input type="text" placeholder="Search" name="searchTag" class="Search">
+            <button type="submit" name="venueSearch">Search venue by location</button>
+            <button type="submit" name="showSearchName">Search shows by name</button>
+            <button type="submit" name="showSearchRating">Search shows by rating</button>
+        </form>
+    </div>
     {% for key,value in venueDict.items() %}
         <div class="card">
             <h1><a href="/venue/{{key}}">{{value[0]}}</a></h1>
