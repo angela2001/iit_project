@@ -445,12 +445,16 @@ def rateVenue(venue_id):
         cur.close()
         return render_template('rating.html')
     
+@app.route('/graph/venue',methods=['GET'])
+def showVenue():
+    return render_template('venue_graph.html')
+
 @app.route('/graph/show',methods=['GET'])
 def showGraph():
     return render_template('show_graph.html')
 
-@app.route('/plot.png')
-def plot_png():
+@app.route('/plotVenue.png')
+def plot_png1():
     venue=[]
     rating=[]
     conn = sqlite3.connect("database.sqlite3")
@@ -468,6 +472,27 @@ def plot_png():
     fig = Figure()
     axis = fig.add_subplot(1, 1, 1)
     axis.plot(venue, rating)  
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
+
+@app.route('/plotShow.png')
+def plot_png2():
+    shows=[]
+    rating=[]
+    conn = sqlite3.connect("database.sqlite3")
+    cur = conn.cursor()
+    sql1="""select show_name,rating from shows"""
+    cur.execute(sql1)
+    res=cur.fetchall()
+    cur.close()
+    print(res)
+    for item in res:
+        shows.append(item[0])
+        rating.append(item[1])
+    fig = Figure()
+    axis = fig.add_subplot(1, 1, 1)
+    axis.plot(shows, rating)  
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
     return Response(output.getvalue(), mimetype='image/png')
