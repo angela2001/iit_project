@@ -458,11 +458,7 @@ def plot_png():
     sql1="""select venue_name,rating from venue"""
     cur.execute(sql1)
     res=cur.fetchall()
-    # sql2="""select rating from venue"""
-    # cur.execute(sql2)
-    # rating= cur.fetchall()
     cur.close()
-    # print(name)
     print(res)
     for item in res:
         venue.append(item[0])
@@ -472,7 +468,6 @@ def plot_png():
     fig = Figure()
     axis = fig.add_subplot(1, 1, 1)
     axis.plot(venue, rating)  
-    # plot=plt.plot(venue,rating)
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
     return Response(output.getvalue(), mimetype='image/png')
