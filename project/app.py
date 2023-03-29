@@ -110,6 +110,21 @@ def signinpage():
         db.session.commit()
         return redirect('/')
 
+@app.route('/admin_signup', methods=['GET', 'POST'])
+def adminsigninpage():
+    if request.method == 'GET':
+        return render_template('admin_signup.html')
+    if request.method == 'POST':
+        admin_name = request.form['admin_name']
+        password = request.form['password']
+        userexists = db.session.query(Admin).filter(Admin.admin_name == admin_name).first()
+        if userexists:
+            return render_template('user_exists.html')
+        user = Admin(admin_name=admin_name, password=password)
+        db.session.add(user)
+        db.session.commit()
+        return redirect('/admin_login')    
+
 
 # Home page
 @app.route('/home', methods=['GET', 'POST'])
