@@ -2,6 +2,8 @@ from flask import Flask, render_template, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 import os
 import sqlite3
+from matplotlib import pyplot as plt
+
 #import pyautogui as pag
 #import win32api
 
@@ -407,7 +409,7 @@ def rateShow(show_id):
         num=show_info[0][1]
         num=num+1
         new_rating= (new_rating+rating)/num
-        print(new_rating)
+        #print(new_rating)
        
         sql1="""update shows set rating=? , ratingno=? where show_id=?"""
         cur.execute(sql1,(new_rating,num,show_id,))
@@ -438,7 +440,23 @@ def rateVenue(venue_id):
         conn.commit()
         cur.close()
         return render_template('rating.html')
-        
+    
+# @app.route('/graph/show',methods=['GET'])
+# def showGraph():
+#     conn = sqlite3.connect("database.sqlite3")
+#     cur = conn.cursor()
+#     sql1="""select venue_name from venue"""
+#     cur.execute(sql1)
+#     name=cur.fetchall()
+#     sql2="""select rating from venue"""
+#     cur.execute(sql2)
+#     rating= cur.fetchall()
+#     cur.close()
+#     print(name)
+#     print(rating)
+#     plot=plt.plot(name,rating)
+#     print(plot)
+#     return render_template('show_graph.html',rating=rating,name=name,plot=plot)
 
 # @app.route('/profile', methods=['GET','POST'])
 # def profile():+
