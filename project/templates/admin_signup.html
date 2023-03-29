@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %} Admin Signup Page {% endblock%}
+
+{% block body %} 
+<h1>Booking App</h1>
+<div class='form'>
+    <form action='/admin_signup' method='POST'>  
+        <h3>Sign Up</h3>
+        <label>Create Username : </label>   
+        <input type="text" placeholder=" Enter Username" name="admin_name" required minlength="5">  <br>
+        <label>Create Password : </label>   
+        <input type="password" placeholder=" Enter Password" name="password" required minlength="8">
+        <label>Retype Password : </label> 
+        <input type="password" placeholder=" Retype Password" name="pass" required minlength="8"><br>
+        <label>Verified details</label><input type="checkbox"><br>
+        <button type="submit">Signup</button><br><br>
+        <div class="redirect"><i class="italic">Return to Admin Login? Click <a href='/admin_login'>here</a> to login</i></div>
+    </form>   
+</div>
+{% endblock%}
